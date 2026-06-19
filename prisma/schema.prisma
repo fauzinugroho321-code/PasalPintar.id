@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Di Prisma v7, kita membiarkan bagian ini tanpa url karena sudah diurus oleh prisma.config.ts
+}
+
+model UndangUndang {
+  id              String   @id @default(uuid())
+  nomor_pasal     String
+  isi_teks        String
+  sumber_regulasi String
+  kategori        String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model RiwayatKonsultasi {
+  id                  String   @id @default(uuid())
+  pertanyaan_pengguna String
+  jawaban_ai          String
+  referensi_pasal     String
+  createdAt           DateTime @default(now())
+}
