@@ -4,7 +4,7 @@ PasalPintar.id adalah platform edukasi hukum berbasis kecerdasan buatan (AI) yan
 
 ### 📸 Screenshot
 
-![PasalPintar Preview](.public/screenshot.png)
+<img src="public/screenshot.png" alt="Screenshot PasalPintar" width="100%">
 
 ### ✨ Features
 
