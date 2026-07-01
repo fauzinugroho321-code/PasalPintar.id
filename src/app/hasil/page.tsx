@@ -41,8 +41,8 @@ function ChatContent() {
 
       setMessages(prev => [...prev, { id: Date.now() + 1, role: "assistant", content: data.text }]);
       
-      if (data.pasals) {
-        setRujukan(data.pasals);
+      if (data.references) {
+        setRujukan(data.references);
       } else {
         setRujukan([]);
       }
@@ -199,22 +199,27 @@ function ChatContent() {
                 <div className="flex flex-col gap-4 mb-6">
                   {rujukan.map((pasal: any, idx: number) => (
                     <div key={idx} className="bg-white p-5 rounded-xl shadow-sm border border-white hover:border-[#c5a059]/40 transition-colors">
-                      {/* Judul Pasal */}
+                      {/* Judul Pasal (Menarik dari metadata API) */}
                       <div className="text-lg font-bold text-[#071B3B] mb-0.5" style={{ fontFamily: "var(--font-libre)" }}>
-                        {pasal.nomor_pasal}
+                        {pasal.metadata?.node_type === 'pasal' ? `Pasal ${pasal.metadata.node_number}` : 'Referensi Hukum'}
                       </div>
-                      {/* Sumber UU */}
+                      {/* Sumber UU (Menggabungkan data 'work' dari API) */}
                       <div className="text-[10px] font-bold text-[#c5a059] uppercase tracking-wide mb-3">
-                        {pasal.sumber_regulasi}
+                        {pasal.work?.type} NO. {pasal.work?.number} TAHUN {pasal.work?.year} - {pasal.work?.title}
                       </div>
-                      {/* Isi Teks */}
+                      {/* Isi Teks (Menarik dari 'snippet' API) */}
                       <div className="text-[13px] text-gray-700 leading-relaxed font-medium mb-4 line-clamp-4">
-                        {pasal.isi_teks}
+                        "{pasal.snippet}"
                       </div>
-                      {/* Tautan Fiktif (Lihat Teks Asli) */}
-                      <button className="text-[11px] font-bold text-[#071B3B] hover:text-[#c5a059] transition-colors flex items-center gap-1 underline decoration-[#c5a059]/40 underline-offset-4">
+                      {/* Tautan Asli ke Pasal.id */}
+                      <a 
+                        href={`https://pasal.id${pasal.work?.frbr_uri}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="inline-flex text-[11px] font-bold text-[#071B3B] hover:text-[#c5a059] transition-colors items-center gap-1 underline decoration-[#c5a059]/40 underline-offset-4"
+                      >
                         Lihat teks asli <ArrowRight className="w-3 h-3 text-[#c5a059]" />
-                      </button>
+                      </a>
                     </div>
                   ))}
                 </div>
